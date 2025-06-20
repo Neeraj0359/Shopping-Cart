@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Products" icon-name="custom:custom63">
+        <div class="slds-grid slds-p-around_small">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input type="search" label="Search" placeholder="Search" disabled></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                <lightning-button 
+                    label="Go To Cart" 
+                    onclick={handleGoToCart} 
+                    variant="brand">
+                </lightning-button>
+            </div>
+        </div>
+
+        <lightning-datatable
+            key-field="Id"
+            data={products}
+            columns={columns}
+            hide-checkbox-column>
+        </lightning-datatable>
+
+        <div class="slds-m-top_medium slds-align_absolute-center">
+            <lightning-button label="First" onclick={handleFirst} disabled={isFirstPage} class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Previous" onclick={handlePrevious} disabled={isFirstPage} class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Next" onclick={handleNext} disabled={isLastPage} class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Last" onclick={handleLast} disabled={isLastPage}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
