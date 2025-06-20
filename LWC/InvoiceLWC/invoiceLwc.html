@@ -1,0 +1,29 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-around_medium">
+
+            <!-- 🔷 Icon + Invoice Heading -->
+            <div class="slds-grid slds-wrap slds-align_absolute-center slds-m-bottom_small">
+                <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                    <lightning-icon
+                        icon-name="standard:invoice"
+                        size="medium"
+                        alternative-text="Invoice"
+                        class="slds-m-right_small">
+                    </lightning-icon>
+                    <span class="slds-text-heading_medium">Invoice</span>
+                </div>
+            </div>
+
+            <!-- 🟦 Place Order Button -->
+            <div class="slds-text-align_center slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Place Order"
+                    onclick={handlePlaceOrder}>
+                </lightning-button>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>
