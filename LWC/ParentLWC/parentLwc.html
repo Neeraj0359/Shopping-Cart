@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Parent LWC">
+        <div class="slds-p-around_medium">
+            <template if:true={showOrders}>
+                <c-orders-l-w-c></c-orders-l-w-c>
+            </template>
+
+            <template if:true={showProducts}>
+                <c-products-lwc></c-products-lwc>
+            </template>
+
+            <template if:true={showCart}>
+                <c-cart-lwc></c-cart-lwc>
+            </template>
+
+            <template if:true={showInvoice}>
+                <c-invoice-lwc></c-invoice-lwc>
+            </template>
+
+            <template if:true={showOrderSuccess}>
+                <c-order-success-lwc></c-order-success-lwc>
+            </template>            
+        </div>
+    </lightning-card>
+</template>
