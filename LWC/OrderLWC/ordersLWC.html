@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="My Orders" icon-name="custom:custom63">
+        <lightning-button 
+            label="Add new Purchase Order" 
+            onclick={handleAddOrder} 
+            variant="brand"
+            class="slds-m-bottom_medium">
+        </lightning-button>
+
+        <lightning-datatable
+            key-field="Id"
+            data={orders}
+            columns={columns}
+            hide-checkbox-column>
+        </lightning-datatable>
+
+        <div class="slds-m-top_medium slds-align_absolute-center">
+            <lightning-button 
+                label="First" 
+                onclick={handleFirst} 
+                disabled={isFirstPage} 
+                class="slds-m-right_small">
+            </lightning-button>
+
+            <lightning-button 
+                label="Previous" 
+                onclick={handlePrevious} 
+                disabled={isFirstPage} 
+                class="slds-m-right_small">
+            </lightning-button>
+
+            <lightning-button 
+                label="Next" 
+                onclick={handleNext} 
+                disabled={isLastPage} 
+                class="slds-m-right_small">
+            </lightning-button>
+
+            <lightning-button 
+                label="Last" 
+                onclick={handleLast} 
+                disabled={isLastPage}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
