@@ -1,0 +1,28 @@
+<template>
+    <template if:true={showProducts}>
+        <c-product-page ongotocart={handleGoToCart}></c-product-page>
+    </template>
+
+    <template if:true={showCart}>
+        <c-cart-page
+            ongotoproducts={handleGoToProducts}
+            ongotoinvoice={handleGoToInvoice}>
+        </c-cart-page>
+    </template>
+
+    <template if:true={showInvoice}>
+        <c-invoice-page onorderplaced={handleOrderPlaced}></c-invoice-page>
+    </template>
+
+    <template if:true={showOrderConfirmation}>
+        <c-order-confirmation onvieworders={handleViewOrders}></c-order-confirmation>
+    </template>
+
+
+    <template if:true={showOrders}>
+        <c-orders-page ongotoproducts={handleGoToProducts}></c-orders-page>
+    </template>
+</template>
+
+
+  
