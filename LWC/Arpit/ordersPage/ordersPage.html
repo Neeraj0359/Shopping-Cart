@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Order History">
+        <div class="slds-p-around_medium">
+            <template if:true={orders.length}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={orders}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </template>
+            <template if:false={orders.length}>
+                <p>No orders found. Please place an order first.</p>
+            </template>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Order More Products"
+                    onclick={orderMore}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>
