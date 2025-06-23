@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Order Confirmation">
+        <div class="slds-p-around_medium slds-align_absolute-center">
+            <h2>🎉 Thank you! Your order has been placed successfully.</h2>
+            <p class="slds-m-top_small">You ordered {productCount} products.</p>
+            <lightning-button
+                label="View My Orders"
+                class="slds-m-top_medium"
+                onclick={handleViewOrders}
+                variant="brand">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
