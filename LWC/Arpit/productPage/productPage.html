@@ -2,6 +2,14 @@
     <lightning-card title="Product List">
         <div class="slds-p-around_medium">
 
+            <!-- Search Bar -->
+            <lightning-input
+                type="search"
+                label="Search Products"
+                placeholder="Enter product name"
+                onchange={handleSearch}>
+            </lightning-input>
+
             <!-- Product Table with Selection -->
             <lightning-datatable
                 key-field="Id"
@@ -29,3 +37,4 @@
         </div>
     </lightning-card>
 </template>
+
