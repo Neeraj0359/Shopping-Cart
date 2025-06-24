@@ -3,25 +3,29 @@ import getProducts from '@salesforce/apex/ProductController.getProducts';
 
 export default class ProductPage extends LightningElement {
     @track allProducts = [];
+    @track filteredProducts = [];
     @track selectedProducts = [];
-    @track oldSelectedProducts = [];
 
-    currentPage = 1;
+    searchKey = '';
     pageSize = 5;
+    currentPage = 1;
 
     @wire(getProducts)
     wiredProducts({ data, error }) {
         if (data) {
-            this.allProducts = data;
+            // Disable selection for 0 unit products
+            this.allProducts = data.map(prod => ({
+                ...prod,
+                isDisabled: prod.Available_Unit__c === 0
+            }));
+            this.filteredProducts = [...this.allProducts];
 
-            // Restore previous selection
             const saved = localStorage.getItem('selectedProducts');
             if (saved) {
                 this.selectedProducts = JSON.parse(saved);
             }
-        }
-        if (error) {
-            console.error('Error fetching products:', error);
+        } else if (error) {
+            console.error('Error:', error);
         }
     }
 
@@ -33,27 +37,23 @@ export default class ProductPage extends LightningElement {
         ];
     }
 
+    // Search
+    handleSearch(event) {
+        this.searchKey = event.target.value.toLowerCase();
+        this.currentPage = 1;
+        this.filteredProducts = this.allProducts.filter(prod =>
+            prod.Name.toLowerCase().includes(this.searchKey)
+        );
+    }
+
+    // Pagination logic
     get pagedProducts() {
         const start = (this.currentPage - 1) * this.pageSize;
-        return this.allProducts.slice(start, start + this.pageSize);
-    }
-
-    get selectedRowIds() {
-        return this.selectedProducts.map(item => item.Id);
-    }
-
-    get isDisabled() {
-        return this.selectedProducts.length === 0;
-    }
-
-    handleSelection(event) {
-        const selectedRows = event.detail.selectedRows;
-        this.selectedProducts = selectedRows;
-        localStorage.setItem('selectedProducts', JSON.stringify(this.selectedProducts));
+        return this.filteredProducts.slice(start, start + this.pageSize);
     }
 
     nextPage() {
-        const maxPage = Math.ceil(this.allProducts.length / this.pageSize);
+        const maxPage = Math.ceil(this.filteredProducts.length / this.pageSize);
         if (this.currentPage < maxPage) {
             this.currentPage++;
         }
@@ -65,8 +65,34 @@ export default class ProductPage extends LightningElement {
         }
     }
 
+    get selectedRowIds() {
+        const currentIds = this.pagedProducts.map(p => p.Id);
+        return this.selectedProducts
+            .filter(item => currentIds.includes(item.Id))
+            .map(item => item.Id);
+    }
+
+    handleSelection(event) {
+        const newSelected = event.detail.selectedRows;
+        const currentPageIds = this.pagedProducts.map(p => p.Id);
+
+        // Remove old selections for current page
+        this.selectedProducts = this.selectedProducts.filter(
+            item => !currentPageIds.includes(item.Id)
+        );
+
+        // Add new selections
+        this.selectedProducts = [...this.selectedProducts, ...newSelected];
+
+        localStorage.setItem('selectedProducts', JSON.stringify(this.selectedProducts));
+    }
+
     goToCart() {
         localStorage.setItem('selectedProducts', JSON.stringify(this.selectedProducts));
         this.dispatchEvent(new CustomEvent('gotocart', { bubbles: true }));
+    }
+
+    get isDisabled() {
+        return this.selectedProducts.length === 0;
     }
 }
